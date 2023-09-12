@@ -1,10 +1,10 @@
- jobs:
+jobs:
   build:
     docker:
-      - image: python:3.6                   # similar to "image" in GitLab
+      - image: python:3.6
     steps:
       - checkout
-      - run: |                              # similar to "script" in GitLab
+      - run: |
           pip install -r requirements.txt
           python manage.py check
 
@@ -26,7 +26,7 @@
           command: |
             echo "This is an integration step"
             exit 1
-          when: on_fail      # Even if the job fails, continue to the next jobs
+          when: on_fail
 
   prod:
     docker:
@@ -40,7 +40,8 @@
       - image: python:3.6
     steps:
       - checkout
-      - run: echo "hello" > hello.txt
+      - run: |
+          echo "hello" > hello.txt
       - store_artifacts:
           path: hello.txt
           destination: artifact-file
@@ -50,7 +51,7 @@ workflows:
   django:
     jobs:
       - build:
-          filters:          # Run the job with a specific branch
+          filters:
             branches:
               only:
                 - main
